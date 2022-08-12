@@ -88,11 +88,11 @@ namespace lve {
 
         auto extensions = getRequiredExtensions();
         extensions.push_back("VK_KHR_portability_enumeration"); //ADD TO VECTOR
-        createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-        createInfo.ppEnabledExtensionNames = extensions.data();
+        extensions.push_back("VK_KHR_get_physical_device_properties2"); //ADD TO VECTOR
 
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
         if (enableValidationLayers) {
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
 
@@ -102,6 +102,9 @@ namespace lve {
             createInfo.enabledLayerCount = 0;
             createInfo.pNext = nullptr;
         }
+
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        createInfo.ppEnabledExtensionNames = extensions.data();
 
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");

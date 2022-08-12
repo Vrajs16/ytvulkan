@@ -11,7 +11,6 @@ namespace lve {
     struct PipelineConfigInfo {
         VkViewport viewport;
         VkRect2D scissor;
-        VkPipelineViewportStateCreateInfo viewportInfo;
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
         VkPipelineRasterizationStateCreateInfo rasterizationInfo;
         VkPipelineMultisampleStateCreateInfo multisampleInfo;
@@ -34,7 +33,10 @@ namespace lve {
 
         void operator=(const LvePipeline &) = delete;
 
+        void bind(VkCommandBuffer commandBuffer);
+
         static PipelineConfigInfo defaultPipelineConfig(uint32_t width, uint32_t height);
+
 
     private:
         static std::vector<char> readFile(const std::string &filepath);
