@@ -28,6 +28,9 @@ namespace lve {
 
     private:
 
+        void
+        sierpinski(std::vector<LveModel::Vertex> &vertices, int depth, glm::vec2 left, glm::vec2 right, glm::vec2 top);
+
         void loadModels();
 
         void createPipelineLayout();
@@ -49,6 +52,7 @@ namespace lve {
         std::unique_ptr<LveModel> lveModel;
 //        LvePipeline lvePipeline{lveDevice, "shaders/simple_shader.vert.spv", "shaders/simple_shader.frag.spv",
 //                                LvePipeline::defaultPipelineConfig(WIDTH, HEIGHT)};
+
 
     };
 }  // namespace lve
