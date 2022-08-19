@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(Vulkan REQUIRED)
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+execute_process(COMMAND ${CMAKE_SOURCE_DIR}/shaders.sh WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(ytvulkan main.cpp
         lve_window.cpp
@@ -19,6 +19,6 @@ add_executable(ytvulkan main.cpp
         first_app.hpp
         lve_pipeline.hpp
         lve_device.hpp
-        lve_swap_chain.hpp)
+        lve_swap_chain.hpp lve_model.cpp lve_model.hpp)
 
 target_link_libraries(ytvulkan PRIVATE Vulkan::Vulkan -lglfw)
