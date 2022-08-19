@@ -46,15 +46,14 @@ namespace lve {
     }
 
     void FirstApp::loadModels() {
+        //std::vector<LveModel::Vertex> vertices{};
+        //sierpinski(vertices, 10, {0.0f, -0.5f}, {0.5f, 0.5f}, {-0.5f, 0.5f});
+        std::vector<LveModel::Vertex> vertices{
+                {{0.0f,  -0.5f}, {1.0f, 0.0f, 0.0f}},
+                {{0.5f,  0.5f},  {0.0f, 1.0f, 0.0f}},
+                {{-0.5f, 0.5f},  {0.0f, 0.0f, 1.0f}}
+        };
 
-        //        std::vector<LveModel::Vertex> vertices{
-        //                {{0.0f,  -0.5f}},
-        //                {{0.5f,  0.5f}},
-        //                {{-0.5f, 0.5f}}
-        //        };
-
-        std::vector<LveModel::Vertex> vertices{};
-        sierpinski(vertices, 10, {0.0f, -0.5f}, {0.5f, 0.5f}, {-0.5f, 0.5f});
         lveModel = std::make_unique<LveModel>(lveDevice, vertices);
     }
 
