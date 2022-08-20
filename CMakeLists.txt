@@ -19,6 +19,6 @@ add_executable(ytvulkan main.cpp
         first_app.hpp
         lve_pipeline.hpp
         lve_device.hpp
-        lve_swap_chain.hpp lve_model.cpp lve_model.hpp)
+        lve_swap_chain.hpp lve_model.cpp lve_model.hpp lve_game_object.cpp lve_game_object.hpp)
 
 target_link_libraries(ytvulkan PRIVATE Vulkan::Vulkan -lglfw)
