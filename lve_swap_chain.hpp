@@ -7,7 +7,6 @@
 
 // std lib headers
 #include <memory>
-
 #include <string>
 #include <vector>
 
@@ -19,13 +18,14 @@ namespace lve {
 
         LveSwapChain(LveDevice &deviceRef, VkExtent2D windowExtent);
 
-        LveSwapChain(LveDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<LveSwapChain> previous);
+        LveSwapChain(
+                LveDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<LveSwapChain> previous);
 
         ~LveSwapChain();
 
         LveSwapChain(const LveSwapChain &) = delete;
 
-        void operator=(const LveSwapChain &) = delete;
+        LveSwapChain &operator=(const LveSwapChain &) = delete;
 
         VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
 
@@ -53,6 +53,11 @@ namespace lve {
 
         VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
 
+        bool compareSwapFormats(const LveSwapChain &swapChain) const {
+            return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
+                   swapChain.swapChainImageFormat == swapChainImageFormat;
+        }
+
     private:
         void init();
 
@@ -78,6 +83,7 @@ namespace lve {
         VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
         VkFormat swapChainImageFormat;
+        VkFormat swapChainDepthFormat;
         VkExtent2D swapChainExtent;
 
         std::vector<VkFramebuffer> swapChainFramebuffers;

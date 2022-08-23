@@ -87,12 +87,14 @@ namespace lve {
         createInfo.flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR; // ADD FLAG FOR M1
 
         auto extensions = getRequiredExtensions();
-        extensions.push_back("VK_KHR_portability_enumeration"); //ADD TO VECTOR
-        extensions.push_back("VK_KHR_get_physical_device_properties2"); //ADD TO VECTOR
+
+        extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME); //ADD TO VECTOR
+        extensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME); //ADD TO VECTOR
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        createInfo.ppEnabledExtensionNames = extensions.data();
 
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
         if (enableValidationLayers) {
-            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
 
@@ -102,9 +104,6 @@ namespace lve {
             createInfo.enabledLayerCount = 0;
             createInfo.pNext = nullptr;
         }
-
-        createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-        createInfo.ppEnabledExtensionNames = extensions.data();
 
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
@@ -218,11 +217,11 @@ namespace lve {
                supportedFeatures.samplerAnisotropy;
     }
 
-    void LveDevice::populateDebugMessengerCreateInfo(
-            VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
+    void LveDevice::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
         createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-        createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+        createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+                                     VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
                                      VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
         createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
                                  VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
@@ -288,14 +287,14 @@ namespace lve {
         // std::cout << "available extensions:" << std::endl;
         std::unordered_set<std::string> available;
         for (const auto &extension: extensions) {
-            //  std::cout << "\t" << extension.extensionName << std::endl;
+            //std::cout << "\t" << extension.extensionName << std::endl;
             available.insert(extension.extensionName);
         }
 
-        // std::cout << "required extensions:" << std::endl;
+        //std::cout << "required extensions:" << std::endl;
         auto requiredExtensions = getRequiredExtensions();
         for (const auto &required: requiredExtensions) {
-            // std::cout << "\t" << required << std::endl;
+            //std::cout << "\t" << required << std::endl;
             if (available.find(required) == available.end()) {
                 throw std::runtime_error("Missing required glfw extension");
             }

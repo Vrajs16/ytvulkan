@@ -1,6 +1,6 @@
 #include "lve_window.hpp"
 
-//std:
+// std
 #include <stdexcept>
 
 namespace lve {
@@ -24,10 +24,9 @@ namespace lve {
         glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
     }
 
-
     void LveWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
         if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
-            throw std::runtime_error("Failed to create window surface");
+            throw std::runtime_error("failed to create window surface");
         }
     }
 
@@ -36,5 +35,6 @@ namespace lve {
         lveWindow->framebufferResized = true;
         lveWindow->width = width;
         lveWindow->height = height;
-    };
+    }
+
 }  // namespace lve

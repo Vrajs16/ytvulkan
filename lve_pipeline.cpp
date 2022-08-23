@@ -1,17 +1,23 @@
 #include "lve_pipeline.hpp"
+
 #include "lve_model.hpp"
-//std
-#include <fstream>
-#include <stdexcept>
-#include <iostream>
+
+// std
 #include <cassert>
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
 
 namespace lve {
 
-    LvePipeline::LvePipeline(LveDevice &device, const std::string &vertFilePath, const std::string &fragFilePath,
-                             const PipelineConfigInfo &configInfo) : lveDevice{device} {
-        createGraphicsPipeline(vertFilePath, fragFilePath, configInfo);
-    };
+    LvePipeline::LvePipeline(
+            LveDevice &device,
+            const std::string &vertFilepath,
+            const std::string &fragFilepath,
+            const PipelineConfigInfo &configInfo)
+            : lveDevice{device} {
+        createGraphicsPipeline(vertFilepath, fragFilepath, configInfo);
+    }
 
     LvePipeline::~LvePipeline() {
         vkDestroyShaderModule(lveDevice.device(), vertShaderModule, nullptr);
@@ -23,30 +29,32 @@ namespace lve {
         std::ifstream file{filepath, std::ios::ate | std::ios::binary};
 
         if (!file.is_open()) {
-            throw std::runtime_error("Failed to open file: " + filepath);
+            throw std::runtime_error("failed to open file: " + filepath);
         }
 
         size_t fileSize = static_cast<size_t>(file.tellg());
         std::vector<char> buffer(fileSize);
+
         file.seekg(0);
         file.read(buffer.data(), fileSize);
+
         file.close();
         return buffer;
-    };
+    }
 
+    void LvePipeline::createGraphicsPipeline(
+            const std::string &vertFilepath,
+            const std::string &fragFilepath,
+            const PipelineConfigInfo &configInfo) {
+        assert(
+                configInfo.pipelineLayout != VK_NULL_HANDLE &&
+                "Cannot create graphics pipeline: no pipelineLayout provided in configInfo");
+        assert(
+                configInfo.renderPass != VK_NULL_HANDLE &&
+                "Cannot create graphics pipeline: no renderPass provided in configInfo");
 
-    void LvePipeline::createGraphicsPipeline(const std::string &vertFilePath, const std::string &fragFilePath,
-                                             const PipelineConfigInfo &configInfo) {
-        auto vertCode = readFile(vertFilePath);
-        auto fragCode = readFile(fragFilePath);
-
-//        std::cout << "Vertex shader code size: " << vertCode.size() << "\n";
-//        std::cout << "Fragment shader code size: " << fragCode.size() << "\n";
-
-        assert(configInfo.pipelineLayout != VK_NULL_HANDLE &&
-               "Cannot create pipeline:: no pipelineLayout provided in configInfo");
-        assert(configInfo.renderPass != VK_NULL_HANDLE &&
-               "Cannot create pipeline:: no renderpass provided in configInfo");
+        auto vertCode = readFile(vertFilepath);
+        auto fragCode = readFile(fragFilepath);
 
         createShaderModule(vertCode, &vertShaderModule);
         createShaderModule(fragCode, &fragShaderModule);
@@ -59,7 +67,6 @@ namespace lve {
         shaderStages[0].flags = 0;
         shaderStages[0].pNext = nullptr;
         shaderStages[0].pSpecializationInfo = nullptr;
-
         shaderStages[1].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
         shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
         shaderStages[1].module = fragShaderModule;
@@ -72,7 +79,8 @@ namespace lve {
         auto attributeDescriptions = LveModel::Vertex::getAttributeDescriptions();
         VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+        vertexInputInfo.vertexAttributeDescriptionCount =
+                static_cast<uint32_t>(attributeDescriptions.size());
         vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.size());
         vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
         vertexInputInfo.pVertexBindingDescriptions = bindingDescriptions.data();
@@ -97,11 +105,16 @@ namespace lve {
         pipelineInfo.basePipelineIndex = -1;
         pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-        if (vkCreateGraphicsPipelines(lveDevice.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr,
-                                      &graphicsPipeline) != VK_SUCCESS) {
-            std::runtime_error("Failed to create graphics pipeline");
+        if (vkCreateGraphicsPipelines(
+                lveDevice.device(),
+                VK_NULL_HANDLE,
+                1,
+                &pipelineInfo,
+                nullptr,
+                &graphicsPipeline) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create graphics pipeline");
         }
-    };
+    }
 
     void LvePipeline::createShaderModule(const std::vector<char> &code, VkShaderModule *shaderModule) {
         VkShaderModuleCreateInfo createInfo{};
@@ -111,8 +124,8 @@ namespace lve {
 
         if (vkCreateShaderModule(lveDevice.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS) {
             throw std::runtime_error("failed to create shader module");
-        };
-    };
+        }
+    }
 
     void LvePipeline::bind(VkCommandBuffer commandBuffer) {
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
@@ -184,8 +197,9 @@ namespace lve {
         configInfo.dynamicStateEnables = {VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR};
         configInfo.dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
         configInfo.dynamicStateInfo.pDynamicStates = configInfo.dynamicStateEnables.data();
-        configInfo.dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
+        configInfo.dynamicStateInfo.dynamicStateCount =
+                static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
         configInfo.dynamicStateInfo.flags = 0;
-    };
+    }
 
-}
+}  // namespace lve

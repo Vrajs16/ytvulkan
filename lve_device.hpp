@@ -28,7 +28,7 @@ namespace lve {
 #ifdef NDEBUG
         const bool enableValidationLayers = false;
 #else
-        const bool enableValidationLayers = true;
+        const bool enableValidationLayers = false;
 #endif
 
         LveDevice(LveWindow &window);
@@ -38,7 +38,7 @@ namespace lve {
         // Not copyable or movable
         LveDevice(const LveDevice &) = delete;
 
-        LveDevice operator=(const LveDevice &) = delete;
+        LveDevice &operator=(const LveDevice &) = delete;
 
         LveDevice(LveDevice &&) = delete;
 
