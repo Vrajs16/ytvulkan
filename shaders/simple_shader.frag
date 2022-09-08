@@ -11,3 +11,4 @@ layout(push_constant) uniform Push {
 void main(){
     outColor = vec4(push.color, 1.0);
 }
+
