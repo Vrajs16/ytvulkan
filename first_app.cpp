@@ -14,19 +14,23 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace lve {
+namespace lve
+{
 
     FirstApp::FirstApp() { loadGameObjects(); }
 
     FirstApp::~FirstApp() {}
 
-    void FirstApp::run() {
+    void FirstApp::run()
+    {
         SimpleRenderSystem simpleRenderSystem{lveDevice, lveRenderer.getSwapChainRenderPass()};
 
-        while (!lveWindow.shouldClose()) {
+        while (!lveWindow.shouldClose())
+        {
             glfwPollEvents();
 
-            if (auto commandBuffer = lveRenderer.beginFrame()) {
+            if (auto commandBuffer = lveRenderer.beginFrame())
+            {
                 lveRenderer.beginSwapChainRenderPass(commandBuffer);
                 simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects);
                 lveRenderer.endSwapChainRenderPass(commandBuffer);
@@ -37,11 +41,12 @@ namespace lve {
         vkDeviceWaitIdle(lveDevice.device());
     }
 
-    void FirstApp::loadGameObjects() {
+    void FirstApp::loadGameObjects()
+    {
         std::vector<LveModel::Vertex> vertices{
-                {{0.0f,  -0.5f}, {1.0f, 0.0f, 0.0f}},
-                {{0.5f,  0.5f},  {0.0f, 1.0f, 0.0f}},
-                {{-0.5f, 0.5f},  {0.0f, 0.0f, 1.0f}}};
+            {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+            {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+            {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
         auto lveModel = std::make_shared<LveModel>(lveDevice, vertices);
 
         auto triangle = LveGameObject::createGameObject();
@@ -54,4 +59,4 @@ namespace lve {
         gameObjects.push_back(std::move(triangle));
     }
 
-}  // namespace lve
+} // namespace lve
