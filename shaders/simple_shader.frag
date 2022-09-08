@@ -8,7 +8,7 @@ layout(push_constant) uniform Push {
     vec3 color;
 } push;
 
-void main(){
+void main() {
     outColor = vec4(push.color, 1.0);
 }
 

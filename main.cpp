@@ -5,12 +5,16 @@
 #include <iostream>
 #include <stdexcept>
 
-int main() {
+int main()
+{
     lve::FirstApp app{};
 
-    try {
+    try
+    {
         app.run();
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
         std::cerr << e.what() << '\n';
         return EXIT_FAILURE;
     }
@@ -25,11 +29,11 @@ int main() {
 //#include <cstdlib>
 //#include <vector>
 //
-//const uint32_t WIDTH = 800;
-//const uint32_t HEIGHT = 600;
+// const uint32_t WIDTH = 800;
+// const uint32_t HEIGHT = 600;
 //
-//class HelloTriangleApplication {
-//public:
+// class HelloTriangleApplication {
+// public:
 //    void run() {
 //        initWindow();
 //        initVulkan();
@@ -37,7 +41,7 @@ int main() {
 //        cleanup();
 //    }
 //
-//private:
+// private:
 //    GLFWwindow* window;
 //
 //    VkInstance instance;
@@ -102,7 +106,7 @@ int main() {
 //    }
 //};
 //
-//int main() {
+// int main() {
 //    HelloTriangleApplication app;
 //
 //    try {

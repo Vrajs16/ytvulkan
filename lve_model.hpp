@@ -11,10 +11,13 @@
 // std
 #include <vector>
 
-namespace lve {
-    class LveModel {
+namespace lve
+{
+    class LveModel
+    {
     public:
-        struct Vertex {
+        struct Vertex
+        {
             glm::vec2 position;
             glm::vec3 color;
 
@@ -43,4 +46,4 @@ namespace lve {
         VkDeviceMemory vertexBufferMemory;
         uint32_t vertexCount;
     };
-}  // namespace lve
+} // namespace lve

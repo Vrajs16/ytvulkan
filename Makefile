@@ -12,7 +12,7 @@ $(TARGET): $(vertObjFiles) $(fragObjFiles)
 $(TARGET): *.cpp *.hpp
 	g++-12 $(CFLAGS) -o $(TARGET) *.cpp $(LDFLAGS)
 
-# make shader targets
+# Make Shader Targets
 %.spv: %
 	glslc $< -o $@
 

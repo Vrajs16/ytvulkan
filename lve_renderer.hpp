@@ -9,8 +9,10 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
-    class LveRenderer {
+namespace lve
+{
+    class LveRenderer
+    {
     public:
         LveRenderer(LveWindow &window, LveDevice &device);
 
@@ -24,12 +26,14 @@ namespace lve {
 
         bool isFrameInProgress() const { return isFrameStarted; }
 
-        VkCommandBuffer getCurrentCommandBuffer() const {
+        VkCommandBuffer getCurrentCommandBuffer() const
+        {
             assert(isFrameStarted && "Cannot get command buffer when frame not in progress");
             return commandBuffers[currentFrameIndex];
         }
 
-        int getFrameIndex() const {
+        int getFrameIndex() const
+        {
             assert(isFrameStarted && "Cannot get frame index when frame not in progress");
             return currentFrameIndex;
         }
@@ -58,4 +62,4 @@ namespace lve {
         int currentFrameIndex{0};
         bool isFrameStarted{false};
     };
-}  // namespace lve
+} // namespace lve

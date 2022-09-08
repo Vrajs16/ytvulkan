@@ -9,8 +9,10 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
-    class FirstApp {
+namespace lve
+{
+    class FirstApp
+    {
     public:
         static constexpr int WIDTH = 800;
         static constexpr int HEIGHT = 600;
@@ -34,4 +36,4 @@ namespace lve {
 
         std::vector<LveGameObject> gameObjects;
     };
-}  // namespace lve
+} // namespace lve

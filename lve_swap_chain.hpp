@@ -10,16 +10,18 @@
 #include <string>
 #include <vector>
 
-namespace lve {
+namespace lve
+{
 
-    class LveSwapChain {
+    class LveSwapChain
+    {
     public:
         static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
         LveSwapChain(LveDevice &deviceRef, VkExtent2D windowExtent);
 
         LveSwapChain(
-                LveDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<LveSwapChain> previous);
+            LveDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<LveSwapChain> previous);
 
         ~LveSwapChain();
 
@@ -43,7 +45,8 @@ namespace lve {
 
         uint32_t height() { return swapChainExtent.height; }
 
-        float extentAspectRatio() {
+        float extentAspectRatio()
+        {
             return static_cast<float>(swapChainExtent.width) / static_cast<float>(swapChainExtent.height);
         }
 
@@ -53,7 +56,8 @@ namespace lve {
 
         VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
 
-        bool compareSwapFormats(const LveSwapChain &swapChain) const {
+        bool compareSwapFormats(const LveSwapChain &swapChain) const
+        {
             return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
                    swapChain.swapChainImageFormat == swapChainImageFormat;
         }
@@ -75,10 +79,10 @@ namespace lve {
 
         // Helper functions
         VkSurfaceFormatKHR chooseSwapSurfaceFormat(
-                const std::vector<VkSurfaceFormatKHR> &availableFormats);
+            const std::vector<VkSurfaceFormatKHR> &availableFormats);
 
         VkPresentModeKHR chooseSwapPresentMode(
-                const std::vector<VkPresentModeKHR> &availablePresentModes);
+            const std::vector<VkPresentModeKHR> &availablePresentModes);
 
         VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
@@ -108,4 +112,4 @@ namespace lve {
         size_t currentFrame = 0;
     };
 
-}  // namespace lve
+} // namespace lve

@@ -8,8 +8,10 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
-    class SimpleRenderSystem {
+namespace lve
+{
+    class SimpleRenderSystem
+    {
     public:
         SimpleRenderSystem(LveDevice &device, VkRenderPass renderPass);
 
@@ -31,4 +33,4 @@ namespace lve {
         std::unique_ptr<LvePipeline> lvePipeline;
         VkPipelineLayout pipelineLayout;
     };
-}  // namespace lve
+} // namespace lve

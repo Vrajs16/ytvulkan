@@ -6,9 +6,11 @@
 #include <string>
 #include <vector>
 
-namespace lve {
+namespace lve
+{
 
-    struct PipelineConfigInfo {
+    struct PipelineConfigInfo
+    {
         PipelineConfigInfo() = default;
 
         PipelineConfigInfo(const PipelineConfigInfo &) = delete;
@@ -29,13 +31,14 @@ namespace lve {
         uint32_t subpass = 0;
     };
 
-    class LvePipeline {
+    class LvePipeline
+    {
     public:
         LvePipeline(
-                LveDevice &device,
-                const std::string &vertFilepath,
-                const std::string &fragFilepath,
-                const PipelineConfigInfo &configInfo);
+            LveDevice &device,
+            const std::string &vertFilepath,
+            const std::string &fragFilepath,
+            const PipelineConfigInfo &configInfo);
 
         ~LvePipeline();
 
@@ -51,9 +54,9 @@ namespace lve {
         static std::vector<char> readFile(const std::string &filepath);
 
         void createGraphicsPipeline(
-                const std::string &vertFilepath,
-                const std::string &fragFilepath,
-                const PipelineConfigInfo &configInfo);
+            const std::string &vertFilepath,
+            const std::string &fragFilepath,
+            const PipelineConfigInfo &configInfo);
 
         void createShaderModule(const std::vector<char> &code, VkShaderModule *shaderModule);
 
@@ -62,4 +65,4 @@ namespace lve {
         VkShaderModule vertShaderModule;
         VkShaderModule fragShaderModule;
     };
-}  // namespace lve
+} // namespace lve

@@ -6,9 +6,11 @@
 
 #include <string>
 
-namespace lve {
+namespace lve
+{
 
-    class LveWindow {
+    class LveWindow
+    {
     public:
         LveWindow(int w, int h, std::string name);
 
@@ -40,4 +42,4 @@ namespace lve {
         std::string windowName;
         GLFWwindow *window;
     };
-}  // namespace lve
+} // namespace lve

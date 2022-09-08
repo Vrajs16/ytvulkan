@@ -1,5 +1,4 @@
 #include "first_app.hpp"
-
 #include "simple_render_system.hpp"
 
 // libs
